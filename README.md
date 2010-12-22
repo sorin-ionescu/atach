@@ -32,6 +32,12 @@ Is there more?
 
     attach --help
 
+# Extras Directory
+
+`attach.rb` is a [Homebrew](http://mxcl.github.com/homebrew "Homebrew") formula to be installed in `$(brew --prefix)/Library/Formula`.
+
+`attach.usage` is a [Compleat](https://github.com/mbrubeck/compleat "Completion for human beings") completion file to be installed in `~/.compleat`.
+
 # Multiple Windows
 
 What if once in a blue moon, I need multiple windows, should I just revert to `screen` or `tmux`? No, there is a much simpler alternative, but more on that later. First, a few words on `screen` and `tmux`.
