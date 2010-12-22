@@ -1,0 +1,208 @@
+#!/usr/bin/env ruby
+
+# Copyright (c) 2010 Sorin Ionescu. 
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
+
+# Wraps dtach for easier session management.
+#
+# @author       Sorin Ionescu (mailto:sorin.ionescu@gmail.com)
+# @version      1.0.0
+module Attach
+  require 'getoptlong'
+  require 'tmpdir'
+
+  # The version of the script.
+  VERSION = '1.0.0'
+
+  # The name of the script.
+  NAME = File.basename(__FILE__)
+
+  # The directory where sockets are saved.
+  SOCKET_DIR = "#{Dir.tmpdir}/dtach-#{ENV['USER']}"
+
+  # Prints usage information and available options.
+  #
+  # @note Switches purposely differ from dtach for clarity and memorability.
+  def self.help
+    $stderr.puts <<-end
+  Usage: #{NAME} [OPTION]... [SESSION | COMMAND]
+
+  Options:
+    -h, --help          This help.
+    -l, --list          List sessions.
+    -L, --sockets       List sockets.
+    -s, --session       Set the session name.
+    -c, --char          Set the detach character (default ^\\).
+    -r, --redraw        Set the redraw method (none, ctrl_l, or winch).
+    -d, --detached      Start session detched.        
+    -D, --no-detach     Disable detaching.
+    -Z, --no-suspend    Disable suspending.
+    -v, --version       Display version and copyright.
+
+  Report bugs to <sorin.ionescu@gmail.com>.
+    end
+  end
+
+  # Prints version information.
+  def self.version
+    $stderr.puts <<-end
+  #{NAME} #{VERSION}
+
+  Copyright (c) 2010 Sorin Ionescu
+
+  This program is free software. You may modify or distribute it
+  under the terms of the MIT License.
+    end
+  end
+
+  # Lists created sessions.
+  #
+  # @note Ghost sessions may be listed if dtach did not cleanly exit
+  #   and must be deleted manually.
+  #
+  # @see list_sockets
+  def self.list_sessions
+    return unless File.exists? SOCKET_DIR
+    Dir["#{SOCKET_DIR}/*.dtach"].each do |session|
+      puts $1 if session =~ /^.*\/(.+)\.dtach$/
+    end
+  end
+  
+  # Lists created sockets.
+  #
+  # @note Ghost sockets may be listed if dtach did not cleanly exit
+  #   and must be deleted manually. 
+  #
+  # @see list_sessions
+  def self.list_sockets
+    return unless File.exists? SOCKET_DIR
+    Dir["#{SOCKET_DIR}/*.dtach"].each do |session|
+      puts session if session =~ /^.*\/.+\.dtach$/
+    end
+  end
+  
+  # Attaches to an existing session.
+  #
+  # @param [String] session_name the session to attach.
+  # @param [String] dtach_options the options to pass to dtach.
+  def self.attach_session(session_name, dtach_options)
+    session_socket = socket_path(session_name)
+    if File.socket? session_socket 
+      exec "dtach -a #{session_socket} #{dtach_options}"
+    else
+      $stderr.puts "#{NAME}: session '#{session_name}' does not exit."
+      exit 1
+    end
+  end
+
+  # Creates or attaches to an existing session. 
+  #
+  # @param [String] session_name the session to attach.
+  # @param [String] dtach_options the options to pass to dtach.
+  # @param [String] command the command dtach will execute.
+  # @param [true, false] detached creates the session detached.
+  def self.create_session(session_name, dtach_options, command, detached = false)
+    exec "dtach #{detached ? '-n' : '-A'} #{socket_path(session_name)} #{dtach_options} #{command}"
+  end
+
+  # Returns the full path to a socket.
+  #
+  # @param [String] session_name the session name for which to return a socket.
+  # @return [String] the full path to the socket.
+  def self.socket_path(session_name)
+    "#{SOCKET_DIR}/#{session_name}.dtach"
+  end
+
+  # A `main` in Ruby? Ha, ha! 
+  def self.main
+    unless system 'which dtach &>/dev/null'
+      $stderr.puts "#{NAME}: dtach not found." 
+      exit 1
+    end
+
+    Dir.mkdir SOCKET_DIR unless File.exists? SOCKET_DIR
+    
+    session_name = nil
+    detached = false
+    dtach_options = ''
+    opts = GetoptLong.new(
+      ['--help', '-h', GetoptLong::NO_ARGUMENT],
+      ['--list', '-l', GetoptLong::NO_ARGUMENT],
+      ['--sockets', '-L', GetoptLong::NO_ARGUMENT],
+      ['--session', '-s', GetoptLong::REQUIRED_ARGUMENT],
+      ['--char', '-c', GetoptLong::REQUIRED_ARGUMENT],
+      ['--redraw', '-r', GetoptLong::REQUIRED_ARGUMENT],
+      ['--detached', '-d', GetoptLong::NO_ARGUMENT],
+      ['--no-detach', '-D', GetoptLong::NO_ARGUMENT],
+      ['--no-suspend', '-Z', GetoptLong::NO_ARGUMENT],
+      ['--version', '-v', GetoptLong::NO_ARGUMENT]
+    )
+
+    begin
+      opts.quiet = true
+      opts.each do |opt, arg|
+        case opt
+          when '--help'
+            help
+            exit
+          when '--version'
+            version
+            exit
+          when '--list'
+            list_sessions
+            exit
+          when '--sockets'
+            list_sockets
+            exit
+          when '--session'
+            session_name=arg
+          when '--char'
+            dtach_options << ' -e' << " #{arg}"
+          when '--redraw'
+            dtach_options << ' -r' << " #{arg}"
+          when '--detached'
+            detached = true
+          when '--no-detach'
+            dtach_options << ' -E'
+          when '--no-suspend'
+            dtach_options << ' -z'
+        end
+      end
+    rescue GetoptLong::InvalidOption => e
+      $stderr.puts "#{NAME}: #{e}."
+      help
+      exit 1
+    end
+   
+    if session_name and ARGV.length == 0
+      attach_session session_name, dtach_options
+    elsif ARGV.length > 0
+      session_name = ARGV[0] unless session_name
+      create_session session_name, dtach_options, ARGV.join(' '), detached
+    else
+      list_sessions
+    end
+  end
+end
+
+# This file is not meant to be sourced.
+Attach::main if __FILE__ == $PROGRAM_NAME
+
