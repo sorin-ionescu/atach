@@ -1,5 +1,7 @@
+require 'formula'
+
 class Attach <Formula
-  head 'git://github.com/spookyet/attach.git'
+  head 'git://github.com/SpookyET/attach.git'
 
   depends_on 'dtach'
 
@@ -7,3 +9,4 @@ class Attach <Formula
     bin.install "attach"
   end
 end
+
