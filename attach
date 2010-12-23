@@ -43,16 +43,15 @@ module Attach
   # @note Switches purposely differ from dtach for clarity and memorability.
   def self.help
     $stderr.puts <<-end
-  Usage: #{NAME} [OPTION]... [SESSION | COMMAND]
-
+  Usage: #{NAME} [‐option ...] [session | [command [arguments]]
   Options:
     -h, --help          This help.
     -l, --list          List sessions.
     -L, --sockets       List sockets.
     -s, --session       Set the session name.
-    -c, --char          Set the detach character (default ^\\).
+    -c, --char          Set the detach character (default: ^\\).
     -r, --redraw        Set the redraw method (none, ctrl_l, or winch).
-    -d, --detached      Start session detched.        
+    -d, --detached      Start the session detched.        
     -D, --no-detach     Disable detaching.
     -Z, --no-suspend    Disable suspending.
     -v, --version       Display version and copyright.

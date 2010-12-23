@@ -6,7 +6,7 @@ If all you need is detachment and attachment functionality, `screen` is overkill
 
 # Usage
 
-    attach [OPTION]... [SESSION | COMMAND]
+    attach [‐option ...] [session | [command [arguments]]
 
 How do I create a new session?
 

@@ -1,0 +1,74 @@
+.\" Copyright (c) 2010 Sorin Ionescu.
+.\"
+.\" Permission is hereby granted, free of charge, to any person obtaining a copy
+.\" of this software and associated documentation files (the "Software"), to deal
+.\" in the Software without restriction, including without limitation the rights
+.\" to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+.\" copies of the Software, and to permit persons to whom the Software is
+.\" furnished to do so, subject to the following conditions:
+.\"
+.\" The above copyright notice and this permission notice shall be included in
+.\" all copies or substantial portions of the Software.
+.\"
+.\" THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+.\" IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+.\" FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+.\" AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+.\" LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+.\" OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+.\" THE SOFTWARE.
+.\"
+...
+.TH attach 1 "\*(V)" "1.0.0"
+.SH NAME
+\fBattach\fP \- a session manager for dtach.
+
+.SH SYNOPSIS
+\fBattach\fP [\fB-\fP\fIoption\fP \fI...\fP] [\fIsession\fP | [\fIcommand\fP [\fIarguments\fP]]
+
+.SH DESCRIPTION
+\fBattach\fP is a session manager for dtach. If all you need is detachment and attachment functionality, \fBscreen\fP(1) is overkill. Unfortunately, using \fBdtach\fP(1) requires manually managing socket files. Let \fBattach\fP manage dtach sessions (sockets) for you instead.
+
+.SH OPTIONS
+\fBattach\fP understands the following switches:
+.TP
+.B \-h, \-\-help
+Display help.
+.TP
+.B \-l, \-\-list
+List sessions.
+.TP
+.B \-L, \-\-sockets
+List sockets.
+.TP
+.B \-s, \-\-session \fIname\fP
+Set the session name. If it is not set, the name of the command will be used instead.
+.TP
+.B \-c, \-\-char \fIc\fP
+Set the detach character (default: ^\\).
+.TP
+.B \-r, \-\-redraw \fImethod\fP
+Set the redraw method to \fBnone\fP, which disables redrawing, \fBctrl_l\fP (default), which sends a CTRL-L character if the terminal is in character-at-a-time and no-echo modes, or \fBwinch\fP, which forces a WINCH signal to be sent to the program.
+.TP
+.B \-d, \-\-detached
+Start the session detched.
+.TP
+.B \-D, \-\-no-detach
+Disable detaching.
+.TP
+.B \-Z, \-\-no-suspend
+Disable suspending.
+.TP
+.B \-v, \-\-version
+Display version and copyright.
+
+.SH VERSION
+This documentation describes \fBattach\fP version 1.0.0.
+
+.SH "SEE ALSO"
+.br
+dtach(1)
+
+.SH AUTHORS
+Sorin Ionescu <sorin.ionescu@gmail.com\>.
+
