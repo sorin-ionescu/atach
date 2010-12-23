@@ -19,7 +19,7 @@
 .\" THE SOFTWARE.
 .\"
 ...
-.TH attach 1 "\*(V)" "1.0.0"
+.TH "ATTACH" "1" "2010-12-23" "attach 1\&.0\&.0\&" "attach"
 .SH NAME
 \fBattach\fP \- a session manager for dtach.
 
@@ -62,13 +62,30 @@ Disable suspending.
 .B \-v, \-\-version
 Display version and copyright.
 
-.SH VERSION
-This documentation describes \fBattach\fP version 1.0.0.
+.SH EXAMPLES
+
+Create a new session.
+
+    \fBattach\fP \fIpianobar\fP
+
+Reattach to a detached session.
+
+    \fBattach\fP \fIpianobar\fP
+
+Name a session.
+
+    \fBattach\fP \fB-s\fP \fIradio\fP \fIpianobar\fP
+
+List sessions.
+
+    \fBattach\fP
+
+Delete a ghost session from a rare dirty dtach exit.
+
+    \fBattach\fP \fB-L\fP | \fBgrep\fP \fIpianobar\fP | \fBxargs\fP \fIrm\fP
 
 .SH "SEE ALSO"
-.br
-dtach(1)
+\fBdtach\fP(1)
 
 .SH AUTHORS
 Sorin Ionescu <sorin.ionescu@gmail.com\>.
-
