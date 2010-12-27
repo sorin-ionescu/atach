@@ -24,16 +24,13 @@
 \fBattach\fP \- a session manager for dtach.
 
 .SH SYNOPSIS
-\fBattach\fP [\fB-\fP\fIoption\fP \fI...\fP] [\fIsession\fP | [\fIcommand\fP [\fIarguments\fP]]
+\fBattach\fP [\fB-\fP\fIoption\fP \fI...\fP] [\fIsession\fP | [\fIcommand\fP [\fIarguments\fP \fI...\fP]]
 
 .SH DESCRIPTION
 \fBattach\fP is a session manager for dtach. If all you need is detachment and attachment functionality, \fBscreen\fP(1) is overkill. Unfortunately, using \fBdtach\fP(1) requires manually managing socket files. Let \fBattach\fP manage dtach sessions (sockets) for you instead.
 
 .SH OPTIONS
 \fBattach\fP understands the following switches:
-.TP
-.B \-h, \-\-help
-Display help.
 .TP
 .B \-l, \-\-list
 List sessions.
@@ -45,7 +42,7 @@ List sockets.
 Set the session name. If it is not set, the name of the command will be used instead.
 .TP
 .B \-c, \-\-char \fIc\fP
-Set the detach character (default: ^\\).
+Set the detach character (default: \fB^\\\fP).
 .TP
 .B \-r, \-\-redraw \fImethod\fP
 Set the redraw method to \fBnone\fP, which disables redrawing, \fBctrl_l\fP (default), which sends a CTRL-L character if the terminal is in character-at-a-time and no-echo modes, or \fBwinch\fP, which forces a WINCH signal to be sent to the program.
@@ -61,6 +58,9 @@ Disable suspending.
 .TP
 .B \-v, \-\-version
 Display version and copyright.
+.TP
+.B \-h, \-\-help
+Display help.
 
 .SH EXAMPLES
 
