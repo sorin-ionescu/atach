@@ -1,10 +1,10 @@
 require 'formula'
 
 class Attach < Formula
-  url 'git://github.com/SpookyET/attach.git', :tag => '1.0.0'
+  url 'git://github.com/SpookyET/attach.git', :tag => '1.0.1'
   head 'git://github.com/SpookyET/attach.git'
   homepage 'http://github.com/SpookyET/attach'
-  version '1.0.0'
+  version '1.0.1'
   depends_on 'dtach'
 
   def install
