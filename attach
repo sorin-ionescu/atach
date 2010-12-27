@@ -23,10 +23,8 @@
 
 # Wraps dtach for easier session management.
 #
-# @author       Sorin Ionescu (mailto:sorin.ionescu@gmail.com)
-# @version      1.0.1
-
-
+# @author Sorin Ionescu (mailto:sorin.ionescu@gmail.com)
+# @version 1.0.1
 module Attach
   require 'optparse'
   require 'tmpdir'
@@ -61,15 +59,15 @@ module Attach
   # @see list_sessions
   def self.list_sockets
     return unless File.exists? SOCKET_DIR
-    Dir["#{SOCKET_DIR}/*.dtach"].each do |session|
-      puts session if session =~ /^.*\/.+\.dtach$/
+    Dir["#{SOCKET_DIR}/*.dtach"].each do |socket|
+      puts socket if socket =~ /^.*\/.+\.dtach$/
     end
   end
   
   # Attaches to an existing session.
   #
-  # @param [Hash] options the program options.
-  # @param [Array] dtach_options the options to pass to dtach.
+  # @param [Hash] options the script options.
+  # @param [Array] dtach_options the dtach options.
   def self.attach_session(options, dtach_options)
     session_socket = socket_path(options[:name])
     if File.socket? session_socket 
@@ -82,8 +80,8 @@ module Attach
 
   # Creates or attaches to an existing session. 
   #
-  # @param [Hash] options the program options.
-  # @param [Array] dtach_options the options to pass to dtach.
+  # @param [Hash] options the script options.
+  # @param [Array] dtach_options the dtach options.
   # @param [String] command the command dtach will execute.
   def self.create_session(options, dtach_options, command)
     exec "dtach #{options[:detached] ? '-n' : '-A'} #{socket_path(options[:name])} #{dtach_options.join(' ')} #{command}"
