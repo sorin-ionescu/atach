@@ -25,7 +25,7 @@ How do I list sessions?
     attach
 
 How do I delete a ghost session from a __rare__ dirty dtach exit?
-    
+
     attach -L | grep pianobar | xargs rm
 
 Is there more?
@@ -37,6 +37,8 @@ Is there more?
 `attach.rb` is a [Homebrew](http://mxcl.github.com/homebrew "Homebrew") formula to be installed in `$(brew --prefix)/Library/Formula`.
 
 `attach.usage` is a [Compleat](https://github.com/mbrubeck/compleat "Completion for human beings") completion file to be installed in `~/.compleat`.
+
+`_attach` is a [Zsh](http://www.zsh.org) completion file to be installed somewhere in `$FPATH`.
 
 # Multiple Windows
 
@@ -54,7 +56,7 @@ The UNIX [philosophy](http://en.wikipedia.org/wiki/Unix_philosophy) is 'Write pr
 
 # License
 
-Copyright (c) 2010 Sorin Ionescu. 
+Copyright (c) 2011 Sorin Ionescu.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
