@@ -1,18 +1,18 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2010 Sorin Ionescu. 
-# 
+# Copyright (c) 2011 Sorin Ionescu.
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,24 +25,24 @@
 # Wraps dtach for easier session management.
 #
 # @author Sorin Ionescu (mailto:sorin.ionescu@gmail.com)
-# @version 1.0.4
+# @version 1.0.5
 module Attach
   require 'optparse'
   require 'tmpdir'
 
   # The version of the script.
-  VERSION = '1.0.4'
+  VERSION = '1.0.5'
 
   # The name of the script.
   NAME = File.basename(__FILE__)
 
   # The directory where sockets are saved.
   SOCKET_DIR = "#{Dir.tmpdir}/dtach-#{ENV['USER']}"
-  
+
   # Lists created sessions.
   #
   # @param [true, false] full_path if true, list the full path to sockets;
-  #   otherwise, list names of sessions. 
+  #   otherwise, list names of sessions.
   #
   # @note Ghost sessions may be listed if dtach did not cleanly exit
   #   and must be deleted manually.
@@ -54,15 +54,27 @@ module Attach
         puts $1 unless full_path
       end
     end
-  end 
-  
+  end
+
+  # Sets the terminal and tab title.
+  #
+  # @param [String] title the terminal and tab title.
+  def self.set_terminal_title(title)
+    # Set window title.
+    puts "]2;attach: #{title}"
+
+    # Set tab title.
+    puts "]1;attach: #{title}"
+  end
+
   # Attaches to an existing session.
   #
   # @param [Hash] options the script options.
   # @param [String] dtach_options the dtach options.
   def self.attach_session(options, dtach_options)
     session_socket = socket_path(options[:name])
-    if File.socket? session_socket 
+    if File.socket? session_socket
+      set_terminal_title options[:name]
       exec "dtach -a #{session_socket} #{dtach_options}"
     else
       $stderr.puts "#{NAME}: session '#{options[:name]}' does not exit."
@@ -70,12 +82,13 @@ module Attach
     end
   end
 
-  # Creates or attaches to an existing session. 
+  # Creates or attaches to an existing session.
   #
   # @param [Hash] options the script options.
   # @param [String] dtach_options the dtach options.
   # @param [String] command the command dtach will execute.
   def self.create_session(options, dtach_options, command)
+    set_terminal_title options[:name]
     exec "dtach #{options[:detached] ? '-n' : '-A'} #{socket_path(options[:name])} #{dtach_options} #{command}"
   end
 
@@ -87,12 +100,12 @@ module Attach
     "#{SOCKET_DIR}/#{name}.dtach"
   end
 
-  # A `main` in Ruby? Ha, ha! 
+  # A `main` in Ruby? Ha, ha!
   #
   # @note Switches purposely differ from dtach for clarity and memorability.
   def self.main
     unless system 'which dtach &>/dev/null'
-      $stderr.puts "#{NAME}: dtach not found." 
+      $stderr.puts "#{NAME}: dtach not found."
       exit 1
     end
 
@@ -120,7 +133,7 @@ module Attach
       end
       opts.on('-c', '--char=C', /^[^-].*$/, 'Set the detach character (default: ^\\).') do |arg|
         dtach_options << '-e' << arg
-      end 
+      end
       opts.on('-r', '--redraw=METHOD', [:none, :ctrl_l, :winch], 'Set the redraw method (none, ctrl_l, or winch).') do |arg|
         dtach_options << '-r' << arg
       end
@@ -130,11 +143,11 @@ module Attach
       opts.on('-D', '--no-detach', 'Disable detaching.') do
         dtach_options << '-E'
       end
-      opts.on('-Z', '--no-suspend', 'Disable suspending.') do 
+      opts.on('-Z', '--no-suspend', 'Disable suspending.') do
         dtach_options << '-z'
       end
       opts.on('-v', '--version', 'Display version and copyright.') do
-        $stderr.puts <<-end 
+        $stderr.puts <<-end
 #{NAME} #{VERSION}
 
 Copyright (c) 2010 Sorin Ionescu
@@ -147,11 +160,11 @@ end
       opts.on('-h', '--help', 'Display this help.') do
         $stderr.puts opts
         exit
-      end     
+      end
       opts.separator ""
       opts.separator "Report bugs to <sorin.ionescu@gmail.com>."
     end
-    
+
     begin
       option_parser.order!
     rescue OptionParser::ParseError => e
@@ -159,7 +172,7 @@ end
       $stderr.puts option_parser
       exit 1
     end
-   
+
     if options[:name] and ARGV.length == 0
       attach_session options, dtach_options.join(' ')
     elsif ARGV.length > 0
