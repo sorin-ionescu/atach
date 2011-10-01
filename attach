@@ -120,33 +120,33 @@ module Attach
 
       opts.separator ""
       opts.separator "Options:"
-      opts.on('-l', '--list', 'List sessions.') do
+      opts.on('-l', '--list', 'List sessions') do
         list_sessions
         exit
       end
-      opts.on('-L', '--sockets', 'List sockets.') do
+      opts.on('-L', '--sockets', 'List sockets') do
         list_sessions true
         exit
       end
-      opts.on('-s', '--session=NAME', /^[^-].*$/, 'Set the session name.') do |arg|
+      opts.on('-s', '--session=NAME', /^[^-].*$/, 'Set the session name') do |arg|
         options[:name] = arg
       end
-      opts.on('-c', '--char=C', /^[^-].*$/, 'Set the detach character (default: ^\\).') do |arg|
+      opts.on('-c', '--char=C', /^[^-].*$/, 'Set the detach character (default: ^\\)') do |arg|
         dtach_options << '-e' << arg
       end
-      opts.on('-r', '--redraw=METHOD', [:none, :ctrl_l, :winch], 'Set the redraw method (none, ctrl_l, or winch).') do |arg|
+      opts.on('-r', '--redraw=METHOD', [:none, :ctrl_l, :winch], 'Set the redraw method (none, ctrl_l, or winch)') do |arg|
         dtach_options << '-r' << arg
       end
-      opts.on('-d', '--detached', 'Start the session detched.') do
+      opts.on('-d', '--detached', 'Start the session detched') do
         options[:detached] = true
       end
-      opts.on('-D', '--no-detach', 'Disable detaching.') do
+      opts.on('-D', '--no-detach', 'Disable detaching') do
         dtach_options << '-E'
       end
-      opts.on('-Z', '--no-suspend', 'Disable suspending.') do
+      opts.on('-Z', '--no-suspend', 'Disable suspending') do
         dtach_options << '-z'
       end
-      opts.on('-v', '--version', 'Display version and copyright.') do
+      opts.on('-v', '--version', 'Display version and copyright') do
         $stderr.puts <<-end
 #{NAME} #{VERSION}
 
@@ -157,7 +157,7 @@ under the terms of the MIT License.
 end
         exit
       end
-      opts.on('-h', '--help', 'Display this help.') do
+      opts.on('-h', '--help', 'Display this help') do
         $stderr.puts opts
         exit
       end
