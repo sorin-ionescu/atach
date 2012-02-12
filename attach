@@ -50,8 +50,8 @@ module Attach
     return unless File.exists? SOCKET_DIR
     Dir["#{SOCKET_DIR}/*.dtach"].each do |session|
       if session =~ /^.*\/(.+)\.dtach$/
-        puts session if full_path
-        puts $1 unless full_path
+        $stdout.puts session if full_path
+        $stdout.puts $1 unless full_path
       end
     end
   end
