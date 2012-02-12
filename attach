@@ -61,10 +61,10 @@ module Attach
   # @param [String] title the terminal and tab title.
   def self.set_terminal_title(title)
     # Set window title.
-    puts "]2;attach: #{title}"
+    $stdout.print "]2;attach: #{title}"
 
     # Set tab title.
-    puts "]1;attach: #{title}"
+    $stdout.print "]1;attach: #{title}"
   end
 
   # Attaches to an existing session.
