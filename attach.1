@@ -1,11 +1,14 @@
-.\" Copyright (c) 2010 Sorin Ionescu.
+.\" The MIT License
 .\"
-.\" Permission is hereby granted, free of charge, to any person obtaining a copy
-.\" of this software and associated documentation files (the "Software"), to deal
-.\" in the Software without restriction, including without limitation the rights
-.\" to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-.\" copies of the Software, and to permit persons to whom the Software is
-.\" furnished to do so, subject to the following conditions:
+.\" Copyright (c) 2010-2012 Sorin Ionescu.
+.\"
+.\" Permission is hereby granted, free of charge, to any person obtaining
+.\" a copy of this software and associated documentation files (the
+.\" "Software"), to deal in the Software without restriction, including without
+.\" limitation the rights to use, copy, modify, merge, publish, distribute,
+.\" sublicense, and/or sell copies of the Software, and to permit persons to
+.\" whom the Software is furnished to do so, subject to the following
+.\" conditions:
 .\"
 .\" The above copyright notice and this permission notice shall be included in
 .\" all copies or substantial portions of the Software.
@@ -14,20 +17,24 @@
 .\" IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 .\" FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 .\" AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-.\" LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-.\" OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-.\" THE SOFTWARE.
+.\" LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+.\" FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+.\" DEALINGS IN THE SOFTWARE.
 .\"
 ...
 .TH "ATTACH" "1" "2010-12-23" "attach 1\&.0\&.0\&" "attach"
 .SH NAME
-\fBattach\fP \- a session manager for dtach.
+\fBattach\fP \- a session manager for dtach
 
 .SH SYNOPSIS
-\fBattach\fP [\fB-\fP\fIoption\fP \fI...\fP] [\fIsession\fP | [\fIcommand\fP [\fIarguments\fP \fI...\fP]]
+\fBattach\fP [\fB-\fP\fIoption\fP \fI...\fP] [\fIsession\fP | [\fIcommand\fP
+[\fIarguments\fP \fI...\fP]]
 
 .SH DESCRIPTION
-\fBattach\fP is a session manager for dtach. If all you need is detachment and attachment functionality, \fBscreen\fP(1) is overkill. Unfortunately, using \fBdtach\fP(1) requires manually managing socket files. Let \fBattach\fP manage dtach sessions (sockets) for you instead.
+\fBattach\fP is a session manager for dtach. If all you need is detachment and
+attachment functionality, \fBscreen\fP(1) is overkill. Unfortunately, using
+\fBdtach\fP(1) requires manual management of socket files. Let \fBattach\fP
+manage dtach sessions (sockets) for you instead.
 
 .SH OPTIONS
 \fBattach\fP understands the following switches:
@@ -39,16 +46,20 @@ List sessions.
 List sockets.
 .TP
 .B \-s, \-\-session \fIname\fP
-Set the session name. If it is not set, the name of the command will be used instead.
+Set the session name. If it is not set, the name of the command will be used
+instead.
 .TP
 .B \-c, \-\-char \fIc\fP
 Set the detach character (default: \fB^\\\fP).
 .TP
 .B \-r, \-\-redraw \fImethod\fP
-Set the redraw method to \fBnone\fP, which disables redrawing, \fBctrl_l\fP (default), which sends a CTRL-L character if the terminal is in character-at-a-time and no-echo modes, or \fBwinch\fP, which forces a WINCH signal to be sent to the program.
+Set the redraw method to \fBnone\fP, which disables redrawing, \fBctrl_l\fP
+(default), which sends a Ctrl + L character if the terminal is in
+character-at-a-time and no-echo modes, or \fBwinch\fP, which forces a SIGWINCH
+signal to be sent to the program.
 .TP
 .B \-d, \-\-detached
-Start the session detched.
+Start the session detached.
 .TP
 .B \-D, \-\-no-detach
 Disable detaching.
