@@ -24,6 +24,15 @@
 # THE SOFTWARE.
 
 
+# Extends String.
+class String
+  # Strips indentation in heredocs.
+  def unindent
+    indent = scan(/^[ \t]*(?=\S)/).min.length || 0
+    gsub(/^[ \t]{#{indent}}/, '')
+  end
+end
+
 # Wraps dtach for easier session management.
 #
 # @author Sorin Ionescu (mailto:sorin.ionescu@gmail.com)
@@ -154,14 +163,14 @@ module Attach
         dtach_options << '-z'
       end
       opts.on('-v', '--version', 'display version and copyright') do
-        $stderr.puts <<-end
-#{NAME} #{VERSION}
+        $stderr.puts <<-end.unindent
+          #{NAME} #{VERSION}
 
-Copyright (c) 2010-2012 Sorin Ionescu
+          Copyright (c) 2010-2012 Sorin Ionescu
 
-This program is free software. You may modify or distribute it
-under the terms of the MIT License.
-end
+          This program is free software. You may modify or distribute it
+          under the terms of the MIT License.
+        end
         exit
       end
       opts.on('-h', '--help', 'display help') do
