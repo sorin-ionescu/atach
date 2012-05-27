@@ -131,7 +131,8 @@ module Attach
     dtach_options = []
 
     option_parser = OptionParser.new do |opts|
-      opts.banner = "usage: #{NAME} [-option ...] [session | [command [arguments ...]]"
+      opts.banner = \
+        "usage: #{NAME} [-option ...] [session | [command [arguments ...]]"
       opts.summary_width = 22
 
       opts.separator ""
@@ -144,13 +145,28 @@ module Attach
         list_sessions true
         exit
       end
-      opts.on('-s', '--session=NAME', /^[^-].*$/, 'set the session name') do |arg|
+      opts.on(
+        '-s',
+        '--session=NAME',
+        /^[^-].*$/,
+        'set the session name'
+      ) do |arg|
         options[:name] = arg
       end
-      opts.on('-c', '--char=C', /^[^-].*$/, 'set the detach character (default: ^\\)') do |arg|
+      opts.on(
+        '-c',
+        '--char=C',
+        /^[^-].*$/,
+        'set the detach character (default: ^\\)'
+      ) do |arg|
         dtach_options << '-e' << arg
       end
-      opts.on('-r', '--redraw=METHOD', [:none, :ctrl_l, :winch], 'set the redraw method (none, ctrl_l, or winch)') do |arg|
+      opts.on(
+        '-r',
+        '--redraw=METHOD',
+        ['none', 'ctrl_l', 'winch'],
+        'set the redraw method (none, ctrl_l, or winch)'
+      ) do |arg|
         dtach_options << '-r' << arg
       end
       opts.on('-d', '--detached', 'start the session detached') do
