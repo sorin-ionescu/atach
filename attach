@@ -77,7 +77,7 @@ module Attach
     session_socket = socket_path(options[:name])
     if File.socket? session_socket
       set_terminal_title options[:name]
-      exec "dtach -a #{session_socket} #{dtach_options}"
+      exec 'dtach', '-a', session_socket, *dtach_options
     else
       $stderr.puts "#{NAME}: session '#{options[:name]}' does not exit"
       exit 1
@@ -91,7 +91,12 @@ module Attach
   # @param [String] command the command dtach will execute.
   def self.create_session(options, dtach_options, command)
     set_terminal_title options[:name]
-    exec "dtach #{options[:detached] ? '-n' : '-A'} #{socket_path(options[:name])} #{dtach_options} #{command}"
+    exec(
+      'dtach',
+      options[:detached] ? '-n' : '-A',
+      socket_path(options[:name]),
+      *(dtach_options + command)
+    )
   end
 
   # Returns the full path to a socket.
@@ -176,10 +181,10 @@ end
     end
 
     if options[:name] and ARGV.length == 0
-      attach_session options, dtach_options.join(' ')
+      attach_session options, dtach_options
     elsif ARGV.length > 0
       options[:name] = File.basename(ARGV[0]) unless options[:name]
-      create_session options, dtach_options.join(' '), ARGV.join(' ')
+      create_session options, dtach_options, ARGV
     else
       list_sessions
     end
