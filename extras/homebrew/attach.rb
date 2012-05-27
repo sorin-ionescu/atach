@@ -1,7 +1,7 @@
 require 'formula'
 
 class Attach < Formula
-  url 'https://github.com/sorin-ionescu/attach/tarball/1.0.6'
+  url 'https://github.com/sorin-ionescu/attach/tarball/1.0.7'
   head 'https://github.com/sorin-ionescu/attach.git'
   homepage 'http://github.com/sorin-ionescu/attach'
 
