@@ -3,7 +3,7 @@
 
 # The MIT License
 #
-# Copyright (c) 2010-2012 Sorin Ionescu.
+# Copyright (c) 2010-2014 Sorin Ionescu.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -36,13 +36,13 @@ end
 # Wraps dtach for easier session management.
 #
 # @author Sorin Ionescu (mailto:sorin.ionescu@gmail.com)
-# @version 1.0.7
-module Attach
+# @version 1.0.8
+module Atach
   require 'optparse'
   require 'tmpdir'
 
   # The version of the script.
-  VERSION = '1.0.7'
+  VERSION = '1.0.8'
 
   # The name of the script.
   NAME = File.basename(__FILE__)
@@ -72,10 +72,10 @@ module Attach
   # @param [String] title the terminal and tab title.
   def self.set_terminal_title(title)
     # Set window title.
-    $stdout.print "]2;attach: #{title}"
+    $stdout.print "]2;atach: #{title}"
 
     # Set tab title.
-    $stdout.print "]1;attach: #{title}"
+    $stdout.print "]1;atach: #{title}"
   end
 
   # Attaches to an existing session.
@@ -182,7 +182,7 @@ module Attach
         $stderr.puts <<-end.unindent
           #{NAME} #{VERSION}
 
-          Copyright (c) 2010-2012 Sorin Ionescu
+          Copyright (c) 2010-2014 Sorin Ionescu
 
           This program is free software. You may modify or distribute it
           under the terms of the MIT License.
@@ -217,5 +217,5 @@ module Attach
 end
 
 # This file is not meant to be sourced.
-Attach::main if __FILE__ == $PROGRAM_NAME
+Atach::main if __FILE__ == $PROGRAM_NAME
 

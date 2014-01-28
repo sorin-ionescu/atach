@@ -1,6 +1,6 @@
 .\" The MIT License
 .\"
-.\" Copyright (c) 2010-2012 Sorin Ionescu.
+.\" Copyright (c) 2010-2014 Sorin Ionescu.
 .\"
 .\" Permission is hereby granted, free of charge, to any person obtaining
 .\" a copy of this software and associated documentation files (the
@@ -22,22 +22,22 @@
 .\" DEALINGS IN THE SOFTWARE.
 .\"
 ...
-.TH "ATTACH" "1" "2012-02-13" "attach 1\&.0\&.6\&" "attach"
+.TH "ATACH" "1" "2014-08-22" "atach 1\&.0\&.8\&" "atach"
 .SH NAME
-\fBattach\fP \- a session manager for dtach
+\fBatach\fP \- a session manager for dtach
 
 .SH SYNOPSIS
-\fBattach\fP [\fB-\fP\fIoption\fP \fI...\fP] [\fIsession\fP | [\fIcommand\fP
+\fBatach\fP [\fB-\fP\fIoption\fP \fI...\fP] [\fIsession\fP | [\fIcommand\fP
 [\fIarguments\fP \fI...\fP]]
 
 .SH DESCRIPTION
-\fBattach\fP is a session manager for dtach. If all you need is detachment and
+\fBatach\fP is a session manager for dtach. If all you need is detachment and
 attachment functionality, \fBscreen\fP(1) is overkill. Unfortunately, using
-\fBdtach\fP(1) requires manual management of socket files. Let \fBattach\fP
+\fBdtach\fP(1) requires manual management of socket files. Let \fBatach\fP
 manage dtach sessions (sockets) for you instead.
 
 .SH OPTIONS
-\fBattach\fP understands the following switches:
+\fBatach\fP understands the following switches:
 .TP
 .B \-l, \-\-list
 List sessions.
@@ -77,23 +77,23 @@ Display help.
 
 Create a new session.
 
-    \fBattach\fP \fIpianobar\fP
+    \fBatach\fP \fIpianobar\fP
 
 Reattach to a detached session.
 
-    \fBattach\fP \fIpianobar\fP
+    \fBatach\fP \fIpianobar\fP
 
 Name a session.
 
-    \fBattach\fP \fB-s\fP \fIradio\fP \fIpianobar\fP
+    \fBatach\fP \fB-s\fP \fIradio\fP \fIpianobar\fP
 
 List sessions.
 
-    \fBattach\fP
+    \fBatach\fP
 
 Delete a ghost session from a rare dirty dtach exit.
 
-    \fBattach\fP \fB-L\fP | \fBgrep\fP \fIpianobar\fP | \fBxargs\fP \fIrm\fP
+    \fBatach\fP \fB-L\fP | \fBgrep\fP \fIpianobar\fP | \fBxargs\fP \fIrm\fP
 
 .SH "SEE ALSO"
 \fBdtach\fP(1)

@@ -1,48 +1,48 @@
 # Description
 
-`attach` is a session manager for `dtach`.
+`atach` is a session manager for `dtach`.
 
 If all you need is detachment and attachment functionality, `screen` is
 overkill. Unfortunately, using `dtach` requires manual management of socket
-files. Let `attach` manage `dtach` sessions (sockets) for you instead.
+files. Let `atach` manage `dtach` sessions (sockets) for you instead.
 
 # Usage
 
-    attach [‐option ...] [session | [command [arguments ...]]
+    atach [‐option ...] [session | [command [arguments ...]]
 
 How do I create a new session?
 
-    attach pianobar
+    atach pianobar
 
 How do I reattach to a detached session?
 
-    attach pianobar
+    atach pianobar
 
 What if I want the session name to be different from the command name?
 
-    attach -s radio pianobar
+    atach -s radio pianobar
 
 How do I list sessions?
 
-    attach
+    atach
 
 How do I delete a ghost session from a __rare__ dirty dtach exit?
 
-    attach -L | grep pianobar | xargs rm
+    atach -L | grep pianobar | xargs rm
 
 Is there more?
 
-    attach --help
+    atach --help
 
 # Extras Directory
 
-`homebrew/attach.rb` is a [Homebrew](http://mxcl.github.com/homebrew
+`homebrew/atach.rb` is a [Homebrew](https://mxcl.github.com/homebrew
 "Homebrew") formula to be installed in `$(brew --prefix)/Library/Formula`.
 
-`compleat/attach.usage` is a [Compleat](https://github.com/mbrubeck/compleat
+`compleat/atach.usage` is a [Compleat](https://github.com/mbrubeck/compleat
 "Completion for human beings") completion file to be installed in `~/.compleat`.
 
-`zsh/_attach` is a [Zsh](http://www.zsh.org) completion file to be installed
+`zsh/_atach` is a [Zsh](http://www.zsh.org) completion file to be installed
 somewhere in `$FPATH`.
 
 # Multiple Windows
@@ -68,24 +68,24 @@ defeats the purpose of using tmux if one cannot reattach. It can also randomly
 freeze and fail to exit when the subprocess exits. There are also problems with
 _RPROMPT_ in ZSH being malformed and the cursor being misplaced.
 
-# attach + dtach + dvtm = awesome
+# atach + dtach + dvtm = awesome
 
 The UNIX [philosophy](http://en.wikipedia.org/wiki/Unix_philosophy) is 'Write
 programs that do one thing and do it well.', also known as, 'Keep it simple,
 stupid!' [dvtm](http://www.brain-dump.org/projects/dvtm) (Dynamic Virtual
 Terminal Manager) is a tiling window manager similar to X11 window managers for
-the console. Using `attach` with `dvtm` is simple. One does not have to worry
+the console. Using `atach` with `dvtm` is simple. One does not have to worry
 about configuration files, in fact, there are none, nor does one have to worry
 about the _TERM_ environmental variable and how to get `tput colors` to output
 _256_. It just works.
 
-    attach -s evil-project dvtm
+    atach -s evil-project dvtm
 
 # License
 
 (The MIT License)
 
-Copyright (c) 2010-2012 Sorin Ionescu.
+Copyright (c) 2010-2014 Sorin Ionescu.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
